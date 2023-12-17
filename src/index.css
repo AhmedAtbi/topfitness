@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+  font-family: 'Poppins';
+  src: url("fonts/Poppins-Regular.ttf") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: Poppins !important;
+}
+
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+textarea,
+button,
+input {
+  font-family: Poppins !important;
+}
+
+.hero {
+  background: url(./images/hero-bg.svg) top center no-repeat;
+  background-size: cover;
+  font-family: Poppins !important;
+}
+
+.footer {
+  background: url(./images/footer.svg) top center no-repeat;
+  background-size: cover;
+  font-family: Poppins !important;
+}
+
+.cta {
+  background: linear-gradient(rgba(2, 2, 2, .7), rgba(0, 0, 0, .7)), url(https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) fixed center center;
+  font-family: Poppins !important;
+}
+
+
+svg[data-testid=CheckBoxIcon] {
+  color: black;
+  background-color: "white";
+}
+
+.rounded-2xl {
+  color: white !important;
+  font-family: Poppins !important;
+}
+
+.bg-blue-900 {
+  background-color: #8ebf43 !important;
+  font-family: Poppins !important;
+}
+
+.bg-blue-900:hover {
+  background-color: #056938;
+  font-family: Poppins !important;
+}
+
+
+.text-blue-900 {
+  color: #8ebf43;
+  font-family: Poppins !important;
+}
+
+input[inputmode=numeric] {
+  min-width: 125px;
+}
+
+.text-l,
+.text-xl {
+  color: #056938;
+  font-family: Poppins !important;
+}
+
+
+input[inputmode=text] {
+  min-width: 120px;
+}
+
+.border-blue-900,
+.w-24,
+.border-b-4,
+.border-blue-900 {
+  color: #8ebf43;
+  background-color: #056938;
+}
+
+input[name=adresse],
+input[name=nom-agent],
+input[name=prenom-agent] {
+  margin-left: 71px !important;
+}
+
+input[name=tarif],
+input[name=somme-espece] {
+  max-width: 150px !important;
+}
+
+
+input[name=last_name] {
+  margin-left: 20px !important;
+}
+
+input[name=tarif] {
+  margin-left: 145px !important;
+}
+
+
+md:text-2xl,
+p {
+  color: white !important;
+}
+
+
+.hero {
+  background-image: url('images/background.png');
+  /* Replace with your image path */
+  background-size: cover;
+  /* Cover the entire area */
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  /* Full viewport height */
+  width: 100vw;
+  /* Full viewport width */
+  /* Center the background image */
+  /* Do not repeat the image */
+}
+
+
+.MuiSelect-outlined {
+  border-color: black !important;
+}
+
+.text-gray-400,
+.text-md,
+.font-medium,
+.text-gray-600 {
+  color: white !important;
+  font-family: Poppins !important;
+}
+
+button[id*=form],
+button[id=submitBtn] {
+  background-color: #8ebf43 !important;
+}
+
+a:hover,
+button:hover {
+  color: #056938 !important;
+  font-family: Poppins !important;
+}
+
+
+div[id*="phone-input-div"] {
+  right: 70px;
+  position: relative;
+  font-family: Poppins !important;
+}
+
+span[class="country-name"] {
+  color: black;
+  font-family: Poppins !important;
+}
+
+div[aria-describedby="alert-dialog-slide-description"] {
+  padding-bottom: 0px !important;
+  font-family: Poppins !important;
+}
+
+div[class*="MuiContainer-root MuiContainer-maxWidthLg"] {
+  overflow: hidden !important;
+  font-family: Poppins !important;
+}
+
+.text-lg,
+.font-medium,
+input[type='tel'],
+li[class="country"] {
+  color: black !important;
+  font-family: Poppins !important;
+}
+
+div[class*=MuiInputBase-adornedEnd]>div>button {
+  background-color: rgb(243 244 246) !important;
+}
+
+input,
+div[class*=select] {
+  background-color: rgb(243 244 246) !important;
+}
+
+input[type='tel'] {
+  background-color: rgb(243 244 246) !important;
+  font-family: Poppins !important;
+  ;
+}
+
+input[type="checkbox"]:checked,
+.focus:ring-3,
+.focus:ring-blue-300 {
+  color: #056938 !important;
+  font-family: Poppins !important;
+}

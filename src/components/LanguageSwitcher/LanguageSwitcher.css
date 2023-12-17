@@ -1,0 +1,9 @@
+.LanguageSwitcher {
+    display: flex;
+    gap: 10px;
+}
+
+.LanguageButton {
+    text-transform: uppercase;
+    font-weight: bold;
+}

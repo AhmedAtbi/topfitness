@@ -1,0 +1,5 @@
+Bonjour %Client%,
+
+Nous avons reçu votre demande de consultation. Un de nos agents vous contactera le plus tôt possible sur votre numéro ou soit par email.
+
+Bien cordialement.

@@ -1,0 +1,14 @@
+1 - Num tel obligatoire dans le formulaire de consultation
+2 - Ajout des prix lors de la selection des services à partir du formailre
+3 - Ajout de l'information de la devise (TND)
+4 - Services : ajout d'un modal contenant les détails
+5 - Ajout de l'icone de whatsapp + moneygram + WU   
+6 - Changement de couleur des bouton => Secondary
+7 - FR par défaut
+8 - revoir le logo de ServiTrust, les lettres en miniscule
+9 - ajout popup après envoi de demande
+10 - Changer la traduction en arabe
+11 - Piece jointe => pdf + image
+address hammamet
+country tunisia
+email info @servitrust.tn
