@@ -22,10 +22,10 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
     }
     let chequeDetails = '';
     if (cheque) {
-        chequeDetails = '<strong>Détails des chéques transmis:</strong><br/>';
+        chequeDetails = '<strong>Détails des chèques transmis:</strong><br/>';
         listCheque.forEach(item => {
             chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>${item.value} DT dû pour le : ${formatDate(item.date)} <br/>`;;
+<span style="font-size: 18px; color: black;">&#9745;</span>N° chèque : ${item.value} dû pour le ${formatDate(item.date)} <br/>`;;
         });
     }
 
@@ -110,10 +110,10 @@ export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, co
     }
     let chequeDetails = '';
     if (cheque) {
-        chequeDetails = '<strong>Cheque Details:</strong><br/>';
+        chequeDetails = '<strong>Détails des chèques transmis:</strong><br/>';
         listCheque.forEach(item => {
             chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>${item.value} DT dû pour le : ${formatDate(item.date)}  <br/>`;
+<span style="font-size: 18px; color: black;">&#9745;</span>N° chèque : ${item.value} dû pour le : ${formatDate(item.date)}  <br/>`;
         });
 
     }
