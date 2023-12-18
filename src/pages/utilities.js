@@ -63,7 +63,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>méthode de payement:</strong> ${espece ? 'Somme payée en espèce : ' + sommeEspece : cheque ? 'Cheque' : 'Autre'}
+                <strong>méthode de payement:</strong> ${espece ? 'Somme payée en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'}
             </div>
 
             ${cheque ? chequeDetails : ''}
@@ -171,7 +171,7 @@ export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, co
              
             
           
-            <div style="margin-bottom: 10px;">
+            <div style="margin-bottom: 10px;margin-top: 10px;">
                 <strong>Date de Naissance:</strong> ${formatDate(dateDeNaissance)}
             </div>
 
