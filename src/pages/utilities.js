@@ -35,7 +35,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
     <h2 style="margin-botton: 20px; position: absolute; top: 20px; right: 0; white-space: normal; word-break: break-word; text-align: left;">de renouvellement</h2>
 
            
-    <div style="text-align: right;margin-top:50px">
+    <div style="text-align: right;margin-top:70px">
         <strong>Date:</strong> ${today?.toLocaleDateString()}
     </div>
 </div>
@@ -126,7 +126,7 @@ export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, co
     <h2 style="margin: 0; position: absolute; top: 0; right: 10px; white-space: normal; word-break: break-word; text-align: left;">Formulaire </h2>
     <h2 style="margin-botton: 20px; position: absolute; top: 20px; right: 0; white-space: normal; word-break: break-word; text-align: left;">d'inscription</h2>
 
-            <div style="margin-bottom: 10px;margin-top:100px">
+            <div style="margin-bottom: 10px;margin-top:70px">
                 <strong>Nom et prénom de l'adhérent:</strong> ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
             </div>
             <div style="margin-bottom: 10px;">
