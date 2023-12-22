@@ -5,31 +5,31 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { AddCircleOutline } from '@mui/icons-material';
 
-const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif }) => {
+const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, setIntialTarif }) => {
     const defaultTypes = [
-        { type: "01 mois", tarif: "100 DT" },
-        { type: "03 mois", tarif: "300 DT" },
-        { type: "06 mois", tarif: "600 DT" },
-        { type: "01 mois étudiant", tarif: "70 DT" },
-        { type: "01 mois gratuit", tarif: "0 DT" },
-        { type: "01 mois kids", tarif: "50 DT" },
+        { type: "1 mois", tarif: "100 DT" },
+        { type: "3 mois", tarif: "300 DT" },
+        { type: "6 mois", tarif: "600 DT" },
+        { type: "1 mois étudiant", tarif: "70 DT" },
+        { type: "1 mois gratuit", tarif: "0 DT" },
+        { type: "1 mois kids", tarif: "50 DT" },
         { type: "12 mois couple", tarif: "600 DT" },
         { type: "12 mois offre", tarif: "500 DT" },
         { type: "12 mois = 14 mois", tarif: "100 DT" },
         { type: "12 mois convention", tarif: "100 DT" },
         { type: "12 mois étudiant", tarif: "100 DT" },
-        { type: "02 mois vacanciers", tarif: "100 DT" },
-        { type: "03 mois gratuit", tarif: "100 DT" },
-        { type: "03 mois étudiant", tarif: "100 DT" },
-        { type: "03 mois gratuit", tarif: "100 DT" },
-        { type: "03 mois offre", tarif: "100 DT" },
-        { type: "03 mois convention = 4 mois", tarif: "100 DT" },
-        { type: "06 mois étudiant", tarif: "100 DT" },
-        { type: "06 mois offre", tarif: "100 DT" },
+        { type: "2 mois vacanciers", tarif: "100 DT" },
+        { type: "3 mois gratuit", tarif: "100 DT" },
+        { type: "3 mois étudiant", tarif: "100 DT" },
+        { type: "3 mois gratuit", tarif: "100 DT" },
+        { type: "3 mois offre", tarif: "100 DT" },
+        { type: "3 mois convention = 4 mois", tarif: "100 DT" },
+        { type: "6 mois étudiant", tarif: "100 DT" },
+        { type: "6 mois offre", tarif: "100 DT" },
         { type: "06 mois convention", tarif: "100 DT" },
-        { type: "06 mois = 7 mois", tarif: "100 DT" },
+        { type: "6 mois = 7 mois", tarif: "100 DT" },
         { type: "Coaching privé", tarif: "100 DT" },
-        { type: "03 mois = 4 mois", tarif: "100 DT" },
+        { type: "3 mois = 4 mois", tarif: "100 DT" },
         // ... add other default types here
     ];
 
@@ -44,9 +44,6 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif }) 
     }, []);
 
 
-    useEffect(() => {
-        console.log("abonnementabonnementabonnement", abonnement)
-    }, [abonnement]);
 
     const handleChangeAbonnement = (event) => {
         const selectedAbonnement = event.target.value;
@@ -56,8 +53,10 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif }) 
         const selectedType = typeAbonnement.find(item => item.type === selectedAbonnement);
         if (selectedType) {
             setTarif(selectedType.tarif);
+            setIntialTarif(selectedType.tarif);
         } else {
             setTarif(null); // Or a default value, if needed
+            setIntialTarif(null); // Or a default value, if needed
         }
     };
     const handleAddType = () => {

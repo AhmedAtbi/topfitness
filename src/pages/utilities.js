@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 
 export const formatDate = (dateString) => {
     const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
@@ -9,25 +10,32 @@ export const formatDate = (dateString) => {
 
     return `${day}/${month}/${year}`;
 }
-export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
-    let today = new Date();
 
+const preapreChequesAndEchance = ({ echeance, listEcheance, cheque, listCheque }) => {
     let listEch = '';
     if (echeance) {
         listEch = '<strong>Date des echéances :</strong><br/>';
         listEcheance.forEach(item => {
             listEch += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>${item.value} DT dû pour le : ${formatDate(item.date)} <br/>`;;
+<span style="font-size: 18px; color: blue;">&#9745; </span><span style="color: blue;margin-bottom:5px;">${item.value} DT le ${formatDate(item.date)}</span> <br/>`;
         });
     }
+
     let chequeDetails = '';
     if (cheque) {
         chequeDetails = '<strong>Détails des chèques transmis:</strong><br/>';
         listCheque.forEach(item => {
             chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>N° chèque : ${item.value} dû pour le ${formatDate(item.date)} <br/>`;;
+<span style="font-size: 18px; color: red;">&#9745;</span> <span style="color: red;margin-bottom:5px;">N° chèque : ${item.value}, ${item.somme} DT le ${formatDate(item.date)}</span> <br/>`;
         });
     }
+    return { listEch, chequeDetails }
+}
+export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
+    let today = new Date();
+
+    let { chequeDetails, listEch } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance })
+
 
     return `
          <div style="padding: 20px; font-family: Arial, sans-serif; border-radius: 3px;">
@@ -36,87 +44,72 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 
            
     <div style="text-align: right;margin-top:70px">
-        <strong>Date:</strong> ${today?.toLocaleDateString()}
+        Date:<strong> ${today?.toLocaleDateString()} </strong> 
     </div>
 </div>
  <div style="margin-bottom: 10px;">
-        <strong>Code de l'adhérent:</strong> ${codeAdherent}
+        Code de l'adhérent:<strong> ${codeAdherent} </strong>
     </div>
  <div style="margin-top: 10px; margin-bottom: 10px;">
-                <strong>Nom et prénom de l'adhérent:</strong> ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
+               Nom et prénom de l'adhérent:  <strong>${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName} </strong>
             </div>
            
             <div style="margin-bottom: 10px;">
-                <strong>Type d'Abonnement:</strong> ${abonnement}
+                Type d'Abonnement: <strong> ${abonnement} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Date Debut:</strong> ${formatDate(dateDebut)}
+                Date Debut: <strong> ${formatDate(dateDebut)} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Date Fin:</strong> ${formatDate(dateFin)}
+                Date Fin:<strong> ${formatDate(dateFin)} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Tarif:</strong> ${tarif} 
+                Tarif:<strong> ${tarif} </strong>
             </div>
 
-            <div style="margin-bottom: 10px;">
-                <strong>méthode de payement:</strong> ${espece ? 'Somme payée en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'}
+           <div style="margin-bottom: 10px;">
+                Mode de paiement:<strong> ${espece ? ' Paiement en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'} </strong>
             </div>
+         ${cheque ? `
+            <strong>  ${chequeDetails} </strong>
+                    <div style="margin-bottom: 10px;">
+                    Banque:<strong> ${banque} </strong>
+                    </div>
+            ` : ""}
 
-            ${cheque ? chequeDetails : ''}
-           
-            ${cheque ? `
-                <div style="margin-bottom: 10px;">
-                    <strong>Banque:</strong> ${banque}
-                </div>
-            ` : ''}
 
-            <div style="margin-bottom: 10px;">
-                <strong>Echéances:</strong> ${echeance ? 'Oui' : 'Non'}
-            </div>
-            ${echeance ? listEch : ''}
+            ${echeance ? `
+        <div style="margin-bottom: 10px;">
+            Echéance: <strong> Oui </strong>
+        </div>
+       `: ""}
 
+           <strong>  ${echeance ? listEch : ""} </strong>
+             
               
             
-           <div style= "display: flex; alignItems: center; gap: 220px;margin-top:40px" }}>
-            <div >
-                <strong>Signature de l'agent ${agentLasttName} ${agentFirstName}
-                </label>
-            </div>
-              <div >
-                <strong>Signature de l'adhérent  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
+            <div style= "display: flex; alignItems: center; gap: 250px;margin-top:40px" }}>
+                <div >
+                <strong>Signature de l'agent <br/> ${agentLasttName} ${agentFirstName} </strong>
+               
+                </div>
+                <div >
+                <strong>Signature de l'adhérent <br/>  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
                 </strong>
+                </div>
             </div>
-            </div>
-
-
-
           
         </div>
     `;
 }
-export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
+export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
     let today = new Date();
-    let listEch = '';
-    if (echeance) {
-        listEch = '<strong>Date des echéances:</strong><br/>';
-        listEcheance.forEach(item => {
-            listEch += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>${item.value} DT dû pour le : ${formatDate(item.date)} <br/>`;
-        });
-    }
-    let chequeDetails = '';
-    if (cheque) {
-        chequeDetails = '<strong>Détails des chèques transmis:</strong><br/>';
-        listCheque.forEach(item => {
-            chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: black;">&#9745;</span>N° chèque : ${item.value} dû pour le : ${formatDate(item.date)}  <br/>`;
-        });
+    let { chequeDetails, listEch } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance })
 
-    }
+
     const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;"><strong>N° CIN:</strong> ${identifier}</div>`
         : hasPassport ? `<div style="margin-bottom: 10px;"><strong>N° Passeport:</strong> ${identifier}</div>`
             : '';
@@ -126,105 +119,114 @@ export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, co
     <h2 style="margin: 0; position: absolute; top: 0; right: 10px; white-space: normal; word-break: break-word; text-align: left;">Formulaire </h2>
     <h2 style="margin-botton: 20px; position: absolute; top: 20px; right: 0; white-space: normal; word-break: break-word; text-align: left;">d'inscription</h2>
 
-            <div style="margin-bottom: 10px;margin-top:70px">
-                <strong>Nom et prénom de l'adhérent:</strong> ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
+            <div style="margin-bottom: 10px;margin-top:120px">
+                Nom et prénom de l'adhérent: <strong> ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName} </strong>
             </div>
             <div style="margin-bottom: 10px;">
            ${identifierInfo}
            </div>
             <div style="margin-bottom: 10px;">
-                <strong>1ère inscription:</strong> ${isFirstRegistration ? "<input style='display: none;' type='checkbox' checked><span style='font-size: 18px; color:black;'> &#9745;</span> Oui (30dt frais d'inscription)" : "<input type='checkbox' disabled> Non"}
+                1ère inscription: <strong> ${isFirstRegistration ? "<input style='display: none;' type='checkbox' checked><span style='font-size: 18px; color:black;'> &#9745;</span> Oui (30dt frais d'inscription)" : "<input type='checkbox' disabled> Non"}</strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Type d'Abonnement:</strong> ${abonnement}
+               Type d'Abonnement: <strong> ${abonnement} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Date de debut:</strong> ${formatDate(dateDebut)}
+               Date de début: <strong> ${formatDate(dateDebut)} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Date de fin:</strong> ${formatDate(dateFin)}
+                Date de fin:<strong> ${formatDate(dateFin)} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>Tarif:</strong> ${tarif} DT
+                Tarif:<strong> ${tarif} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
-                <strong>méthode de payement:</strong> ${espece ? 'Somme payée en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'}
+                Mode de paiement:<strong> ${espece ? ' Paiement en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'} </strong>
             </div>
 
-            ${cheque ? chequeDetails : ''}
+          ${cheque ? `
+            <strong>  ${chequeDetails} </strong>
+                    <div style="margin-bottom: 10px;">
+                    Banque:<strong> ${banque} </strong>
+                    </div>
+            ` : ""}
 
-            ${cheque ? `
-                <div style="margin-bottom: 10px;">
-                    <strong>Banque:</strong> ${banque}
-                </div>
-            ` : ''}
 
-             <div style="margin-bottom: 10px;">
-                <strong>Echéance:</strong> ${echeance ? 'Oui' : 'Non'}
-            </div>
-            ${echeance ? listEch : ''}
+            ${echeance ? `
+        <div style="margin-bottom: 10px;">
+            Echéance: <strong> Oui </strong>
+        </div>
+       `: ""}
+
+           <strong>  ${echeance ? listEch : ""} </strong>
              
+              
             
-          
+          ${dateDeNaissance ? `
             <div style="margin-bottom: 10px;margin-top: 10px;">
-                <strong>Date de Naissance:</strong> ${formatDate(dateDeNaissance)}
+                Date de Naissance: <strong> ${formatDate(dateDeNaissance)} </strong>
             </div>
+           ` : ""}
+         ${lieuDeNaissance ? `
+            <div style="margin-bottom: 10px;">
+                Lieu de Naissance:<strong> ${lieuDeNaissance} </strong>
+            </div> `: ""}
+        ${ville ? `
+            <div style="margin-bottom: 10px;">
+                Ville:<strong> ${ville} </strong>
+            </div>
+        `: ""}
+        ${profession ? `
+            <div style="margin-bottom: 10px;"> 
+                Profession:<strong> ${profession} </strong>
+            </div>`: ""}
+        ${adresse ? `
+            <div style="margin-bottom: 10px;">
+                Adresse:<strong> ${adresse} </strong>
+            </div> `: ""}
+        ${codePostal ? `
+            <div style="margin-bottom: 10px;">
+                Code Postal:<strong> ${codePostal} </strong>
+            </div> `: ""}
 
             <div style="margin-bottom: 10px;">
-                <strong>Lieu de Naissance:</strong> ${lieuDeNaissance}
-            </div>
-
-            <div style="margin-bottom: 10px;">
-                <strong>Ville:</strong> ${ville}
-            </div>
-
-            <div style="margin-bottom: 10px;">
-                <strong>Profession:</strong> ${profession}
-            </div>
-
-            <div style="margin-bottom: 10px;">
-                <strong>Adresse:</strong> ${adresse}
-            </div>
-
-            <div style="margin-bottom: 10px;">
-                <strong>Code Postal:</strong> ${codePostal}
-            </div>
-
-            <div style="margin-bottom: 10px;">
-                <strong>Téléphone:</strong> ${fullPhoneNumber}
+                Téléphone:<strong> ${fullPhoneNumber} </strong>
             </div>
             <div style="margin-bottom: 10px;">
-                <strong>Téléphone d'urgence:</strong> ${emergencyPhone}
+                Téléphone d'urgence: <strong>${emergencyPhone} </strong> Nom du contact d'urgence : <strong> ${nomUrgence} </strong>
             </div>
 
               <div style="margin-bottom: 10px;">
-                <strong>Je sous signe,  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}</strong> <br/><br/>
-                <stong style="margin-top:10px;">.</strong> <label style="margin-top:10px;">Atteste sur l'honneur que je ne présente aucune contre-indiction à la pratique des activités sportives et de remise en forme et déclare être en excellete santé.
+                <strong>Je soussigné,  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}</strong> <br/><br/>
+                <stong style="margin-top:20px;">.
+                Atteste sur l'honneur que je ne présente aucune contre-indiction à la pratique des activités sportives et de remise en forme et déclare être en excellete santé.
                 Par conséquent, je ne pourrais en aucun cas me retourner juridiquement contre le club Top Fit'ness Hammamet en cas de problème.
-                </label>
+                </strong>
             </div>
+
             <div style="margin-bottom: 10px;">
-                <stong>.</strong><label> Je déclare avoir pris connaissance du règlement intérieur de la salle de sport Top Fit'ness et je m'engage à le respecter
-                </label>
+                .<stong> Je déclare avoir pris connaissance du règlement intérieur de la salle de sport Top Fit'ness et je m'engage à le respecter</strong>
             </div>
+
              <div style="margin-bottom: 20px; margin-left: 430px">
                 <strong>. Hammamet le ${today?.toLocaleDateString()}
                 </strong>
             </div>
-            <div style= "display: flex; alignItems: center; gap: 220px;" }}>
-            <div >
-                <strong>Signature de l'agent ${agentLasttName} ${agentFirstName}
-                </label>
-            </div>
-              <div >
-                <strong>Signature de l'adhérent  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
+
+            <div style= "display: flex; alignItems: center; gap: 250px; margin-top:40px" }}>
+                <div >
+                <strong>Signature de l'agent <br/> ${agentLasttName} ${agentFirstName} </strong>
+               
+                </div>
+                <div >
+                <strong>Signature de l'adhérent <br/>  ${mr ? "Mr " + lastName + " " + firstName : "Mrs " + lastName + " " + firstName}
                 </strong>
-            </div>
+                </div>
             </div>
 
 
@@ -233,6 +235,35 @@ export const formatFormDataSubscription = ({ emergencyPhone, fullPhoneNumber, co
         </div>
     `;
 };
+export const getMonthsFromType = (typeString) => {
+    // Check if the string contains '=' and split it
+    if (typeString?.includes('=')) {
+        const parts = typeString?.split('=');
+        if (parts.length === 2) {
+            // Extract the number from the second part
+            const matches = parts[1].match(/(\d+)/);
+            return matches ? parseInt(matches[0], 10) : 0;
+        }
+    }
+
+    // Default case: extract the first number
+    const matches = typeString?.match(/(\d+)/);
+    return matches ? parseInt(matches[0], 10) : '';
+};
+
+export const updateDateFin = (startDate, type) => {
+    if (startDate && type) {
+        const monthsToAdd = getMonthsFromType(type);
+        // Add the months and then subtract one day
+        let result;
+        if (monthsToAdd) {
+            result = dayjs(startDate).add(monthsToAdd, 'month').subtract(1, 'day');
+        }
+        return result;
+    }
+};
+
+
 
 export const clearInput = (/* setState functions */) => {
     // Implementation of clearInput

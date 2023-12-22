@@ -118,6 +118,10 @@ input[name=tarif] {
   margin-left: 145px !important;
 }
 
+input[name=nom-urgence] {
+  width: 153px !important;
+}
+
 
 md:text-2xl,
 p {
@@ -207,6 +211,12 @@ input[type='tel'] {
   background-color: rgb(243 244 246) !important;
   font-family: Poppins !important;
   ;
+}
+
+input[name*="somme cheque"],
+input[name*="n-cheque"] {
+  margin-left: 10px !important;
+  width: 140px !important;
 }
 
 input[type="checkbox"]:checked,

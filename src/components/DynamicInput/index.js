@@ -5,7 +5,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import CustomDatePicker from '../DatePicker';
 
 const DynamicInputs = ({ echeance, setValues }) => {
-    const [inputs, setInputs] = useState([{ value: '', date: '' }]);
+    const [inputs, setInputs] = useState([{ value: '', date: '', somme: '' }]);
 
     const handleAddInput = () => {
         const newInputs = [...inputs, { value: '', date: '' }];
@@ -14,8 +14,15 @@ const DynamicInputs = ({ echeance, setValues }) => {
     };
 
     const handleInputChange = (index, event) => {
+        const { name, value } = event.target;
         const newInputs = [...inputs];
-        newInputs[index].value = event.target.value;
+
+        if (name.startsWith('somme cheque')) {
+            newInputs[index].somme = value;
+        } else {
+            newInputs[index].value = value;
+        }
+
         setInputs(newInputs);
         setValues(newInputs);
     };
@@ -48,24 +55,38 @@ const DynamicInputs = ({ echeance, setValues }) => {
                         />
                     )}
                     <input
-                        name={echeance ? "somme echeance" : "cheque"}
+                        name={echeance ? "somme echeance" : "n-cheque" + index}
                         className="bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                         type="text"
                         placeholder={echeance ? "Somme échéance " + (index + 1) : "N° chèque " + (index + 1)}
                         value={input.value}
                         onChange={(event) => handleInputChange(index, event)}
-                    /><label style={{ color: "black", marginLeft: "10px" }} id="abonnement-label">
+                    />
+                    {echeance && <label style={{ color: "black", marginLeft: "5px", marginTop: "10px" }} id="abonnement-label">
                         DT
-                    </label>
+                    </label>}
                     {!echeance && (
-                        <CustomDatePicker
-                            disablePast
-                            label="Date versement"
-                            required
-                            sx={{ marginTop: "10px", marginLeft: '10px' }}
-                            onChange={(date) => handleDateChange(index, date)}
-                            value={input.date}
-                        />
+                        <>
+                            <CustomDatePicker
+                                disablePast
+                                label="Date versement"
+                                required
+                                sx={{ marginTop: "10px", marginLeft: '10px' }}
+                                onChange={(date) => handleDateChange(index, date)}
+                                value={input.date}
+                            />
+                            <input
+                                name={"somme cheque" + index}
+                                className="bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                type="text"
+                                placeholder={"Somme en DT"}
+                                value={input.somme}
+                                onChange={(event) => handleInputChange(index, event)}
+                            />
+                            <label style={{ color: "black", marginLeft: "5px", marginTop: "10px" }} id="abonnement-label">
+                                DT
+                            </label>
+                        </>
                     )}
                     {((inputs.length > 1) || (index === inputs.length - 2)) && (
                         <IconButton onClick={() => handleRemoveInput(index)}>

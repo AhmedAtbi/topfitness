@@ -14,6 +14,7 @@ export const useFormState = () => {
     const [codeAdherent, setCodeAdherent] = useState('');
     const [lastName, setLastName] = useState('');
     const [agentLasttName, setAgentLastName] = useState('');
+    const [nomUrgence, setNomUrgence] = useState('');
     const [agentFirstName, setAgentFirstName] = useState('');
     const [banque, setBanque] = useState('');
     const [tarif, setTarif] = useState('');
@@ -61,6 +62,7 @@ export const useFormState = () => {
         adresse, setAdresse,
         mr, setMr,
         mrs, setMrs,
+        nomUrgence, setNomUrgence,
         codePostal, setCodePostal,
         emergencyPhone, setEmergencyPhone,
         phone, setPhone,

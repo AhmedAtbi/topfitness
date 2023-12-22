@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Container, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import PhoneInput from '../components/PhoneInput';
@@ -7,7 +7,7 @@ import DynamicInputs from '../components/DynamicInput';
 import { Style } from '../style';
 import TypeAbonnementManager from '../components/TypeAbonnement';
 import { useFormState } from './useFormState';
-import { checkListEmpty, formatDate, formatFormDataRenew, formatFormDataSubscription } from './utilities';
+import { checkListEmpty, formatDate, formatFormDataRenew, formatFormDataSubscription, updateDateFin } from './utilities';
 
 const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
 
@@ -45,7 +45,8 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         emergencyPhone, setEmergencyPhone,
         phone, setPhone,
         sommeEspece, setSommeEspece,
-        fullPhoneNumber, setFullPhoneNumber
+        fullPhoneNumber, setFullPhoneNumber,
+        nomUrgence, setNomUrgence
     } = useFormState();
     const [errors, setErrors] = useState([]);
     let disableButton = !firstName || !lastName || !dateDebut || !dateFin ||
@@ -54,7 +55,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         (espece && !sommeEspece) ||
         (cheque && (listCheque.length === 0 || checkListEmpty(listCheque))) ||
         (echeance && (listEcheance.length === 0 || checkListEmpty(listEcheance)));
-
+    const [initialTarif, setIntialTarif] = useState(tarif)
 
     const clearInput = () => {
         setListCheque([{ value: '' }]);
@@ -91,7 +92,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
 
 
     const printForm = () => {
-        const formData = isSubscription ? formatFormDataSubscription({ emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) : formatFormDataRenew({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName });
+        const formData = isSubscription ? formatFormDataSubscription({ nomUrgence, emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) : formatFormDataRenew({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName });
         const printWindow = window.open('', '', 'height=600,width=800');
         printWindow.document.write(formData);
         printWindow.document.write('</body></html>');
@@ -100,15 +101,57 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         clearInput();
     };
 
+    const handleChangeDateDebut = (newDate) => {
+        setDateDebut(newDate);
+        updateDateFin(newDate, abonnement);
+    };
+
+    const handleChangeDateFin = (newDate) => {
+        setDateFin(newDate);
+    };
+
+    useEffect(() => {
+        !abonnement && setTarif('')
+    }, [abonnement])
+
+
+
+    useEffect(() => {
+        // Update dateFin whenever dateDebut or type changes
+        setDateFin(updateDateFin(dateDebut, abonnement));
+    }, [dateDebut, abonnement]);
+
     const handlePrint = (e) => {
         e.preventDefault();
         printForm(); // Call print function after form submission
     };
+    useEffect(() => {
+        const extractNumericTariff = (tariffStr) => {
+            return parseInt(tariffStr, 10);
+        };
+
+        let numericTariff = extractNumericTariff(tarif);
+        if (!isNaN(numericTariff)) {
+            if (isFirstRegistration) {
+                // Add 30 to the tariff whenever isFirstRegistration is true
+                let updatedTariff = numericTariff + 30;
+                setTarif(`${updatedTariff} DT`);
+            } else {
+                setTarif(`${initialTarif}`);
+            }
+        }
+    }, [isFirstRegistration, abonnement]); // React to changes in isFirstRegistration or tarif
+
+
 
 
     const handleFirstRegistrationChange = (event) => {
+        // Assuming setIsFirstRegistration and setTariff are your state update functions
         setIsFirstRegistration(event.target.checked);
+
+
     };
+
 
     const handleMrChange = (event) => {
         setMr(event.target.checked);
@@ -145,13 +188,6 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
     // Gérer le changement d'abonnement
 
 
-    const handleChangeDateDebut = (date) => {
-        setDateDebut(date);
-    }
-
-    const handleChangeDateFin = (date) => {
-        setDateFin(date);
-    }
 
     const handleChangeDateDeNaissance = (date) => {
         setDateDeNaissance(date);
@@ -256,7 +292,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                                         Type d'Abonnement
                                                     </label>
 
-                                                    <TypeAbonnementManager setTarif={setTarif} abonnement={abonnement} setAbonnement={setAbonnement} render />
+                                                    <TypeAbonnementManager setIntialTarif={setIntialTarif} setTarif={setTarif} abonnement={abonnement} setAbonnement={setAbonnement} render />
 
                                                     <CustomDatePicker
                                                         disablePast
@@ -270,6 +306,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                                     <CustomDatePicker
                                                         disablePast
                                                         label="au"
+                                                        disabled={!!(dateFin)}
                                                         required
                                                         sx={{ marginLeft: '20px' }} // Adjust spacing as needed
                                                         onChange={handleChangeDateFin}
@@ -321,11 +358,13 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                                         Chèque
                                                     </label>
 
-                                                    {cheque && <DynamicInputs cheque setValues={setListCheque} />}
+                                                    {cheque &&
+                                                        <DynamicInputs cheque setValues={setListCheque} />
+                                                    }
 
                                                     {cheque &&
                                                         <input
-                                                            style={{ minWidth: "110px", marginBottom: "15px" }}
+                                                            style={{ minWidth: "110px", marginBottom: "15px", marginLeft: "-24px" }}
                                                             name="banque"
                                                             className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                                                             type="text"
@@ -472,7 +511,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                         {isSubscription && <Grid container justifyContent="center">
                                             <Grid id={"phone-input-div"} item xs={12}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                                                    <label style={{ marginLeft: "70px", color: "black", marginRight: "80px" }}>
+                                                    <label style={{ marginLeft: "70px", color: "black", marginRight: "80px", marginTop: "20px" }}>
                                                         Numéro de téléphone
                                                     </label>
                                                     <PhoneInput
@@ -483,8 +522,8 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                                         setPhone={setPhone}
                                                     />
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                                                        <label style={{ color: "black", marginRight: "20px" }}>
-                                                            Numéro de téléphone en cas d'urgence
+                                                        <label style={{ color: "black", marginRight: "20px", marginTop: "20px" }}>
+                                                            Numéro du contact d'urgence
                                                         </label>
                                                         <PhoneInput
                                                             setFullPhoneNumber={setEmergencyPhone}
@@ -492,6 +531,15 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                                             errors={errors}
                                                             phone={emergencyPhone}
                                                             setPhone={setEmergencyPhone}
+                                                        />
+                                                        <input
+                                                            className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+                                                            name="nom-urgence"
+                                                            type="text"
+                                                            placeholder={"Nom du contact d'urgence"}
+                                                            value={nomUrgence}
+                                                            onChange={(e) => setNomUrgence(e.target.value)}
+                                                            onKeyUp={clearErrors}
                                                         />
                                                     </div>
                                                 </div>
