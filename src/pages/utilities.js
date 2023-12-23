@@ -111,7 +111,7 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
 
 
     const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;">N° CIN: <strong> ${identifier} </strong> </div>`
-        : hasPassport ? `<div style="margin-bottom: 10px;"><strong>N° Passeport:</strong> ${identifier}</div>`
+        : hasPassport ? `<div style="margin-bottom: 10px;">N° Passeport: <strong> ${identifier} </strong></div>`
             : '';
 
     return `
