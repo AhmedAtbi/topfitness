@@ -110,7 +110,7 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
     let { chequeDetails, listEch, paymentDetails } = prepareOutput({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
 
 
-    const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;"><strong>N° CIN:</strong> ${identifier}</div>`
+    const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;">N° CIN: <strong> ${identifier} </strong> </div>`
         : hasPassport ? `<div style="margin-bottom: 10px;"><strong>N° Passeport:</strong> ${identifier}</div>`
             : '';
 
