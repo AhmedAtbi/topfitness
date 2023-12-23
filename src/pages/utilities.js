@@ -11,12 +11,12 @@ export const formatDate = (dateString) => {
     return `${day}/${month}/${year}`;
 }
 
-const preapreChequesAndEchance = ({ echeance, listEcheance, cheque, listCheque, espece, sommeEspece }) => {
+const prepareOutput = ({ echeance, listEcheance, cheque, listCheque, espece, sommeEspece }) => {
     let listEch = '';
     let paymentDetails = '';
 
     if (espece) {
-        paymentDetails = `<span style="font-size: 18px; color: green;">Paiement en espèce : ${sommeEspece} DT </span></span><br/>`;
+        paymentDetails = `<span style="font-size: 18px; color: green;">Paiement en espèce ${sommeEspece} DT </span></span><br/>`;
     }
 
     if (echeance) {
@@ -40,7 +40,7 @@ const preapreChequesAndEchance = ({ echeance, listEcheance, cheque, listCheque, 
 export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
     let today = new Date();
 
-    let { chequeDetails, listEch, paymentDetails } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
+    let { chequeDetails, listEch, paymentDetails } = prepareOutput({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
 
     return `
          <div style="padding: 20px; font-family: Arial, sans-serif; border-radius: 3px;">
@@ -48,7 +48,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
     <h2 style="margin-botton: 20px; position: absolute; top: 20px; right: 0; white-space: normal; word-break: break-word; text-align: left;">de renouvellement</h2>
 
            
-    <div style="text-align: right;margin-top:70px">
+    <div style="text-align: right;margin-top:120px">
         Date:<strong> ${today?.toLocaleDateString()} </strong> 
     </div>
 </div>
@@ -107,7 +107,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 }
 export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
     let today = new Date();
-    let { chequeDetails, listEch, paymentDetails } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
+    let { chequeDetails, listEch, paymentDetails } = prepareOutput({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
 
 
     const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;"><strong>N° CIN:</strong> ${identifier}</div>`
