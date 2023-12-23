@@ -49,7 +49,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         nomUrgence, setNomUrgence
     } = useFormState();
     const [errors, setErrors] = useState([]);
-    let disableButton = !firstName || !lastName || !dateDebut || !dateFin ||
+    let disableButton = (!isSubscription && !codeAdherent) || !firstName || !lastName || !dateDebut || !dateFin ||
         (!espece && !cheque && !echeance) ||
         (cheque && !banque) ||
         (espece && !sommeEspece) ||

@@ -11,31 +11,36 @@ export const formatDate = (dateString) => {
     return `${day}/${month}/${year}`;
 }
 
-const preapreChequesAndEchance = ({ echeance, listEcheance, cheque, listCheque }) => {
+const preapreChequesAndEchance = ({ echeance, listEcheance, cheque, listCheque, espece, sommeEspece }) => {
     let listEch = '';
+    let paymentDetails = '';
+
+    if (espece) {
+        paymentDetails = `<span style="font-size: 18px; color: green;">Paiement en espèce : ${sommeEspece} DT </span></span><br/>`;
+    }
+
     if (echeance) {
-        listEch = '<strong>Date des echéances :</strong><br/>';
+        listEch = '<span style="color: red;">Echéance</span><br/>';
         listEcheance.forEach(item => {
             listEch += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: blue;">&#9745; </span><span style="color: blue;margin-bottom:5px;">${item.value} DT le ${formatDate(item.date)}</span> <br/>`;
+<span style="font-size: 18px; color: red;">&#9745; </span><span style="color: red;margin-bottom:5px;">${item.value} DT le ${formatDate(item.date)}</span> <br/>`;
         });
     }
 
     let chequeDetails = '';
     if (cheque) {
-        chequeDetails = '<strong>Détails des chèques transmis:</strong><br/>';
+        chequeDetails = '<span style="color: blue;">Chèques</span><br/>';
         listCheque.forEach(item => {
             chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: red;">&#9745;</span> <span style="color: red;margin-bottom:5px;">N° chèque : ${item.value}, ${item.somme} DT le ${formatDate(item.date)}</span> <br/>`;
+<span style="font-size: 18px; color: blue;">&#9745;</span> <span style="color: blue;margin-bottom:5px;">N° chèque : ${item.value}, ${item.somme} DT le ${formatDate(item.date)}</span> <br/>`;
         });
     }
-    return { listEch, chequeDetails }
+    return { listEch, chequeDetails, paymentDetails }
 }
 export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque, codeAdherent, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
     let today = new Date();
 
-    let { chequeDetails, listEch } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance })
-
+    let { chequeDetails, listEch, paymentDetails } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
 
     return `
          <div style="padding: 20px; font-family: Arial, sans-serif; border-radius: 3px;">
@@ -70,22 +75,17 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
                 Tarif:<strong> ${tarif} </strong>
             </div>
 
-           <div style="margin-bottom: 10px;">
-                Mode de paiement:<strong> ${espece ? ' Paiement en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'} </strong>
+
+            <div style="margin-bottom: 10px;">
+                Mode de paiement<br/> ${paymentDetails} 
             </div>
+
          ${cheque ? `
             <strong>  ${chequeDetails} </strong>
                     <div style="margin-bottom: 10px;">
                     Banque:<strong> ${banque} </strong>
                     </div>
             ` : ""}
-
-
-            ${echeance ? `
-        <div style="margin-bottom: 10px;">
-            Echéance: <strong> Oui </strong>
-        </div>
-       `: ""}
 
            <strong>  ${echeance ? listEch : ""} </strong>
              
@@ -107,7 +107,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 }
 export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPhoneNumber, codePostal, adresse, profession, ville, lieuDeNaissance, dateDeNaissance, echeance, listEcheance, cheque, listCheque, hasCIN, identifier, hasPassport, isFirstRegistration, lastName, mr, firstName, abonnement, dateDebut, dateFin, tarif, espece, sommeEspece, banque, agentLasttName, agentFirstName }) => {
     let today = new Date();
-    let { chequeDetails, listEch } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance })
+    let { chequeDetails, listEch, paymentDetails } = preapreChequesAndEchance({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
 
 
     const identifierInfo = hasCIN ? `<div style="margin-bottom: 10px;"><strong>N° CIN:</strong> ${identifier}</div>`
@@ -144,9 +144,9 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
             <div style="margin-bottom: 10px;">
                 Tarif:<strong> ${tarif} </strong>
             </div>
-
+ 
             <div style="margin-bottom: 10px;">
-                Mode de paiement:<strong> ${espece ? ' Paiement en espèce : ' + sommeEspece + " DT" : cheque ? 'Cheque' : 'Autre'} </strong>
+                Mode de paiement:<br/> ${paymentDetails} 
             </div>
 
           ${cheque ? `
@@ -155,13 +155,6 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
                     Banque:<strong> ${banque} </strong>
                     </div>
             ` : ""}
-
-
-            ${echeance ? `
-        <div style="margin-bottom: 10px;">
-            Echéance: <strong> Oui </strong>
-        </div>
-       `: ""}
 
            <strong>  ${echeance ? listEch : ""} </strong>
              
