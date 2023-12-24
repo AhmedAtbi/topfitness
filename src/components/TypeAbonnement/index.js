@@ -59,16 +59,6 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
             setIntialTarif(null); // Or a default value, if needed
         }
     };
-    const handleAddType = () => {
-        if (newType && newTarif) {
-            setNewTarif(newTarif + " DT")
-            const updatedTypes = [...typeAbonnement, { type: newType, tarif: newTarif }];
-            setTypeAbonnement(updatedTypes);
-            localStorage.setItem('typeAbonnement', JSON.stringify(updatedTypes));
-            setNewType('');
-            setNewTarif('');
-        }
-    };
 
     const handleDeleteType = (index) => {
         const updatedTypes = typeAbonnement.filter((_, idx) => idx !== index);
@@ -80,15 +70,28 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
         setEditIndex(index);
     };
 
+    const handleAddType = () => {
+        if (newType && newTarif) {
+            const tarifWithSuffix = newTarif.endsWith(" DT") ? newTarif : newTarif + " DT";
+            const updatedTypes = [...typeAbonnement, { type: newType, tarif: tarifWithSuffix }];
+            setTypeAbonnement(updatedTypes);
+            localStorage.setItem('typeAbonnement', JSON.stringify(updatedTypes));
+            setNewType('');
+            setNewTarif('');
+        }
+    };
+
     const handleSaveType = (index) => {
+        const tarifWithSuffix = newTarif.endsWith(" DT") ? newTarif : newTarif + " DT";
         const updatedTypes = [...typeAbonnement];
-        updatedTypes[index] = { type: newType, tarif: newTarif };
+        updatedTypes[index] = { type: newType, tarif: tarifWithSuffix };
         setTypeAbonnement(updatedTypes);
         localStorage.setItem('typeAbonnement', JSON.stringify(updatedTypes));
         setEditIndex(-1);
         setNewType('');
         setNewTarif('');
     };
+
 
     return (
         <Box sx={{ p: 3, backgroundColor: 'rgb(247, 229, 216)', borderRadius: '8px' }}>
@@ -125,6 +128,9 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
                             value={newTarif}
                             onChange={(e) => setNewTarif(e.target.value)}
                         />
+                        <label style={{ color: "black", marginRight: "10px" }} id="abonnement-label">
+                            DT
+                        </label>
                         <IconButton
                             onClick={editIndex >= 0 ? () => handleSaveType(editIndex) : handleAddType}
                         >

@@ -217,13 +217,14 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                 <div className="bg-white my-4 md:p-12 rounded-2xl" style={{ backgroundColor: "#F7E5D8" }}>
                                     <Grid container spacing={2}>
                                         {isSubscription && <Grid sx={{ marginBottom: "10px" }} item xs={12}>
-                                            <label style={{ color: "black", marginRight: "10px", marginLeft: "-20px" }}>
+                                            <Checkbox sx={{ marginLeft: "-30px" }} onChange={handleFirstRegistrationChange} checked={isFirstRegistration} />
+
+                                            <label style={{ color: "black", marginRight: "10px" }}>
                                                 1ère inscription
                                             </label>
 
-                                            <Checkbox onChange={handleFirstRegistrationChange} checked={isFirstRegistration} />
                                             <label style={{ color: "black", marginLeft: "10px" }}>
-                                                30dt frais d'inscription
+                                                Tarif + 30 DT frais d'inscription
                                             </label>
                                         </Grid>}
                                         {!isSubscription && <Grid sx={{ marginBottom: "10px" }} item xs={12}>

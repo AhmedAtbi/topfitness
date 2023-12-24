@@ -82,7 +82,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 
          ${cheque ? `
             <strong>  ${chequeDetails} </strong>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 5px;">
                     Banque:<strong> ${banque} </strong>
                     </div>
             ` : ""}
@@ -126,7 +126,7 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
            ${identifierInfo}
            </div>
             <div style="margin-bottom: 10px;">
-                1ère inscription: <strong> ${isFirstRegistration ? "<input style='display: none;' type='checkbox' checked><span style='font-size: 18px; color:black;'> &#9745;</span> Oui (30dt frais d'inscription)" : "<input type='checkbox' disabled> Non"}</strong>
+             ${isFirstRegistration ? `  1ère inscription: <strong>  <input style='display: none;' type='checkbox' checked><span style='font-size: 18px; color:black;'> &#9745;</span> Tarif + 30 DT frais d'inscription" ` : ""}</strong>
             </div>
 
             <div style="margin-bottom: 10px;">
@@ -145,13 +145,13 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
                 Tarif:<strong> ${tarif} </strong>
             </div>
  
-            <div style="margin-bottom: 10px;">
-                Mode de paiement:<br/> ${paymentDetails} 
+            <div style="margin-bottom: 7px;">
+                Mode de paiement:<br/>  <strong> ${paymentDetails}  </strong>
             </div>
 
           ${cheque ? `
             <strong>  ${chequeDetails} </strong>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 5px;">
                     Banque:<strong> ${banque} </strong>
                     </div>
             ` : ""}
