@@ -76,8 +76,8 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
             </div>
 
 
-            <div style="margin-bottom: 10px;">
-                Mode de paiement<br/> ${paymentDetails} 
+            <div style="margin-bottom: 7px;">
+                Mode de paiement:<br/>  <strong> ${paymentDetails}  </strong>
             </div>
 
          ${cheque ? `
