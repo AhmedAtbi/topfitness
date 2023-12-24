@@ -130,7 +130,7 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
             </div>
 
             <div style="margin-bottom: 10px;">
-               Type d'Abonnement: <strong> ${abonnement} </strong>
+               Type d'abonnement: <strong> ${abonnement} </strong>
             </div>
 
             <div style="margin-bottom: 10px;">
@@ -191,7 +191,8 @@ export const formatFormDataSubscription = ({ nomUrgence, emergencyPhone, fullPho
                 Téléphone:<strong> ${fullPhoneNumber} </strong>
             </div>
             <div style="margin-bottom: 10px;">
-                Téléphone d'urgence: <strong>${emergencyPhone} </strong> Nom du contact d'urgence : <strong> ${nomUrgence} </strong>
+                Téléphone d'urgence: <strong>${emergencyPhone} </strong> <br/>
+                Nom du contact d'urgence : <strong> ${nomUrgence} </strong>
             </div>
 
               <div style="margin-bottom: 10px;">
