@@ -1,6 +1,0 @@
-Bonjour cher client,
-
-Nous vous remercions pour votre payement. La somme payée est de %montant payé%.
-Merci pour votre confiance et le reste selon la devis de votre consultation sera %rest à payer%
-
-Bien cordialement.

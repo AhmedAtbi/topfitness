@@ -1,3 +1,0 @@
-ajouter un champs pour la somme à payer pour les échances
-Ajouter des champs pour la somme à payer pour le mode espèce
-de même pour les chèques on rajoute des champs pour la somme inscrite dans le chèque
