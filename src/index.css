@@ -31,22 +31,6 @@ input {
   font-family: Poppins !important;
 }
 
-.hero {
-  background: url(./images/hero-bg.svg) top center no-repeat;
-  background-size: cover;
-  font-family: Poppins !important;
-}
-
-.footer {
-  background: url(./images/footer.svg) top center no-repeat;
-  background-size: cover;
-  font-family: Poppins !important;
-}
-
-.cta {
-  background: linear-gradient(rgba(2, 2, 2, .7), rgba(0, 0, 0, .7)), url(https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) fixed center center;
-  font-family: Poppins !important;
-}
 
 
 svg[data-testid=CheckBoxIcon] {

@@ -82,15 +82,13 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 
          ${cheque ? `
             <strong>  ${chequeDetails} </strong>
-                    <div style="margin-bottom: 5px;">
+                    <div style="margin-bottom: 5px;"> 
                     Banque:<strong> ${banque} </strong>
                     </div>
             ` : ""}
 
            <strong>  ${echeance ? listEch : ""} </strong>
-             
-              
-            
+   
             <div style= "display: flex; alignItems: center; gap: 250px;margin-top:40px" }}>
                 <div >
                 <strong>Signature de l'agent <br/> ${agentLasttName} ${agentFirstName} </strong>

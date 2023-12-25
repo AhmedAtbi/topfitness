@@ -8,8 +8,7 @@ import {
   Route
 } from 'react-router-dom';
 // All pages
-import Home from './pages/Home';
-import { useDocTitle } from './components/CustomHook';
+import Home from './pages/Home'
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
     });
   }, []);
 
-  useDocTitle("TopFitness");
 
   return (
     <>
