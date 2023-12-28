@@ -98,7 +98,7 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.print();
-        clearInput();
+        // clearInput();
     };
 
     const handleChangeDateDebut = (newDate) => {
@@ -579,37 +579,63 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
                                             />
                                         </Grid>
                                     </Grid>
-                                    {isSubscription && <Grid sx={{ marginLeft: "40%" }}>
-                                        <Button
-                                            sx={{ width: "30%", marginTop: isSubscription ? "20px" : "50px" }}
-                                            disabled={disableButton}
-                                            type="submit"
-                                            id="submitBtn"
-                                            variant="contained"
-                                            color="primary"
-                                            style={{ backgroundColor: Style.greenGoCaution }}
-                                        >
-                                            {"Valider"}
-                                        </Button>
-                                    </Grid>
-                                    }
+                                    <div>
+                                        {isSubscription && (
+                                            <Grid container direction="row" justifyContent="center" >
+                                                <Button
+                                                    sx={{ width: "30%", marginX: "10px" }}
+                                                    id="resetBtn"
+                                                    onClick={clearInput}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{ backgroundColor: Style.greenGoCaution }}
+                                                >
+                                                    {"Réinitialiser"}
+                                                </Button>
 
+                                                <Button
+                                                    sx={{ width: "30%", marginX: "10px" }}
+                                                    id="submitBtn"
+                                                    type="submit"
+                                                    disabled={disableButton}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{ backgroundColor: Style.greenGoCaution }}
+                                                >
+                                                    {"Valider"}
+                                                </Button>
+                                            </Grid>
+                                        )}
+
+                                        {!isSubscription && (
+                                            <Grid container direction="row" justifyContent="center" sx={{ marginX: "auto" }}>
+                                                <Button
+                                                    sx={{ width: "30%", marginX: "10px" }}
+                                                    onClick={clearInput}
+                                                    id="resetBtn"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{ backgroundColor: Style.greenGoCaution }}
+                                                >
+                                                    {"Réinitialiser"}
+                                                </Button>
+
+                                                <Button
+                                                    sx={{ width: "30%", marginX: "10px" }}
+                                                    disabled={disableButton}
+                                                    type="submit"
+                                                    id="submitBtn"
+                                                    variant="contained"
+                                                    color="primary"
+                                                    style={{ backgroundColor: Style.greenGoCaution }}
+                                                >
+                                                    {"Valider"}
+                                                </Button>
+                                            </Grid>
+                                        )}
+                                    </div>
 
                                 </div>
-                                {!isSubscription && <Grid sx={{ marginLeft: "40%" }}>
-                                    <Button
-                                        sx={{ width: "30%" }}
-                                        disabled={disableButton}
-                                        type="submit"
-                                        id="submitBtn"
-                                        variant="contained"
-                                        color="primary"
-                                        style={{ backgroundColor: Style.greenGoCaution }}
-                                    >
-                                        {"Valider"}
-                                    </Button>
-                                </Grid>}
-
                             </form>
                             {/* Your InfoSection component */}
                         </Grid>

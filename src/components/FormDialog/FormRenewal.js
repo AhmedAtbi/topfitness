@@ -6,7 +6,6 @@ import Slide from '@mui/material/Slide';
 import { Grid, IconButton } from '@mui/material';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { Style } from '../../style';
-import { useTranslation } from 'react-i18next';
 import FormService from '../../pages/FormService';
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -14,7 +13,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const FormRenewal = ({ open, handleClose }) => {
-    const { t } = useTranslation();
     const [opened, setOpened] = useState(open);
 
 

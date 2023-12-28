@@ -112,6 +112,16 @@ p {
   color: white !important;
 }
 
+.cheque-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+}
+
+.cheque-item {
+  margin-bottom: 10px;
+}
+
 
 .hero {
   background-image: url('images/background.png');
@@ -142,7 +152,8 @@ p {
 }
 
 button[id*=form],
-button[id=submitBtn] {
+button[id=submitBtn],
+button[id=resetBtn] {
   background-color: #8ebf43 !important;
 }
 

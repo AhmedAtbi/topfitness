@@ -23,7 +23,7 @@ const prepareOutput = ({ echeance, listEcheance, cheque, listCheque, espece, som
         listEch = '<span style="color: red;">Echéance</span><br/>';
         listEcheance.forEach(item => {
             listEch += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: red;">&#9745; </span><span style="color: red;margin-bottom:5px;">${item.value} DT le ${formatDate(item.date)}</span> <br/>`;
+<span style="font-size: 18px; color: red;">&#9745; </span><span style="color: red;margin-bottom:5px;">${item.value} DT le ${formatDate(item.date)}</span>`;
         });
     }
 
@@ -32,7 +32,7 @@ const prepareOutput = ({ echeance, listEcheance, cheque, listCheque, espece, som
         chequeDetails = '<span style="color: blue;">Chèques</span><br/>';
         listCheque.forEach(item => {
             chequeDetails += `<input type="checkbox" checked style="display: none;" />
-<span style="font-size: 18px; color: blue;">&#9745;</span> <span style="color: blue;margin-bottom:5px;">N° chèque : ${item.value}, ${item.somme} DT le ${formatDate(item.date)}</span> <br/>`;
+<span style="font-size: 18px; color: blue;">&#9745;</span> <span style="color: blue;margin-bottom:5px;">N°: ${item.value}  Somme: ${item.somme} DT Le ${formatDate(item.date)}</span> `;
         });
     }
     return { listEch, chequeDetails, paymentDetails }
@@ -48,7 +48,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
     <h2 style="margin-botton: 20px; position: absolute; top: 20px; right: 0; white-space: normal; word-break: break-word; text-align: left;">de renouvellement</h2>
 
            
-    <div style="text-align: right;margin-top:120px">
+    <div style="text-align: right;margin-top:40px">
         Date:<strong> ${today?.toLocaleDateString()} </strong> 
     </div>
 </div>
@@ -89,7 +89,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
 
            <strong>  ${echeance ? listEch : ""} </strong>
    
-            <div style= "display: flex; alignItems: center; gap: 250px;margin-top:40px" }}>
+            <div style= "display: flex; alignItems: center; gap: 250px;margin-top:8px" }}>
                 <div >
                 <strong>Signature de l'agent <br/> ${agentLasttName} ${agentFirstName} </strong>
                

@@ -35,19 +35,19 @@ const NavBar = () => {
                 </Toolbar>
             </AppBar>
             {
-                isOpenRenewal && (
+                
                     <FormRenewal open={isOpenRenewal} handleClose={() => setIsOpenRenewal(false)} />
-                )
+                
             }
             {
-                isTypeAbonnement && (
+                
                     <TypeAbonnementComponent open={isTypeAbonnement} handleClose={() => setIsTypeAbonnement(false)} />
-                )
+                
             }
             {
-                isOpenSubscription && (
+                
                     <FormSubscription open={isOpenSubscription} handleClose={() => setIsOpenSubscription(false)} />
-                )
+                
             }
         </>
     );
