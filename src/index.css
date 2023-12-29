@@ -220,3 +220,7 @@ input[type="checkbox"]:checked,
   color: #056938 !important;
   font-family: Poppins !important;
 }
+
+table[id=type-abonnement-table] {
+  background-color: rgb(247, 229, 216);
+}

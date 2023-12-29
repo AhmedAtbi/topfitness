@@ -41,7 +41,7 @@ export const formatFormDataRenew = ({ echeance, listEcheance, cheque, listCheque
     let today = new Date();
 
     let { chequeDetails, listEch, paymentDetails } = prepareOutput({ echeance, cheque, listCheque, listEcheance, espece, sommeEspece })
-
+ 
     return `
          <div style="padding: 20px; font-family: Arial, sans-serif; border-radius: 3px;">
     <h2 style="margin: 0; position: absolute; top: 0; right: 45px; white-space: normal; word-break: break-word; text-align: left;">Formulaire </h2>

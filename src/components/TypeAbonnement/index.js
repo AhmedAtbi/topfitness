@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Select, MenuItem, Box, List, ListItem, ListItemText, IconButton, TextField } from '@mui/material';
+import { Box, Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, IconButton, TableSortLabel } from '@mui/material';
+import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
+import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import { AddCircleOutline } from '@mui/icons-material';
-
 const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, setIntialTarif }) => {
     const defaultTypes = [
         { type: "1 mois", tarif: "100 DT" },
@@ -44,7 +43,23 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
     }, []);
 
 
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('type');
 
+    const handleRequestSort = (property) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
+    const sortedItems = typeAbonnement.sort((a, b) => {
+        if (orderBy === 'type') {
+            return (order === 'asc' ? a.type.localeCompare(b.type) : b.type.localeCompare(a.type));
+        } else {
+            // Assuming tarif is a string, you might need to parse it for numerical comparison
+            return (order === 'asc' ? parseFloat(a.tarif) - parseFloat(b.tarif) : parseFloat(b.tarif) - parseFloat(a.tarif));
+        }
+    });
     const handleChangeAbonnement = (event) => {
         const selectedAbonnement = event.target.value;
         setAbonnement(selectedAbonnement);
@@ -73,7 +88,8 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
     const handleAddType = () => {
         if (newType && newTarif) {
             const tarifWithSuffix = newTarif.endsWith(" DT") ? newTarif : newTarif + " DT";
-            const updatedTypes = [...typeAbonnement, { type: newType, tarif: tarifWithSuffix }];
+            let updatedTypes = [...typeAbonnement, { type: newType, tarif: tarifWithSuffix }];
+            updatedTypes = sortAbonnements(updatedTypes); // Sort after adding
             setTypeAbonnement(updatedTypes);
             localStorage.setItem('typeAbonnement', JSON.stringify(updatedTypes));
             setNewType('');
@@ -83,14 +99,28 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
 
     const handleSaveType = (index) => {
         const tarifWithSuffix = newTarif.endsWith(" DT") ? newTarif : newTarif + " DT";
-        const updatedTypes = [...typeAbonnement];
+        let updatedTypes = [...typeAbonnement];
         updatedTypes[index] = { type: newType, tarif: tarifWithSuffix };
+        updatedTypes = sortAbonnements(updatedTypes); // Sort after editing
         setTypeAbonnement(updatedTypes);
         localStorage.setItem('typeAbonnement', JSON.stringify(updatedTypes));
         setEditIndex(-1);
         setNewType('');
         setNewTarif('');
     };
+
+    // Sorting function
+    const sortAbonnements = (abonnements) => {
+        return abonnements.sort((a, b) => {
+            if (orderBy === 'type') {
+                return (order === 'asc' ? a.type.localeCompare(b.type) : b.type.localeCompare(a.type));
+            } else {
+                // Assuming tarif is a string, parse it for numerical comparison
+                return (order === 'asc' ? parseFloat(a.tarif) - parseFloat(b.tarif) : parseFloat(b.tarif) - parseFloat(a.tarif));
+            }
+        });
+    };
+
 
 
     return (
@@ -137,30 +167,57 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
                             {editIndex >= 0 ? <SaveIcon /> : <AddCircleOutline />}
                         </IconButton>
                     </Box>
-                    <List sx={{ width: '100%', borderRadius: '4px' }}>
-                        {typeAbonnement.map((item, index) => (
-                            <ListItem
-                                key={index}
-                                secondaryAction={
-                                    <>
-                                        <IconButton edge="end" aria-label="edit" onClick={() => {
-                                            setEditIndex(index);
-                                            setNewType(item.type);
-                                            setNewTarif(item.tarif);
-                                        }}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteType(index)}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </>
-                                }
-                            >
-                                <ListItemText primary={`${item.type} - ${item.tarif}`} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </>}
+                    <TableContainer component={Paper}>
+                        <Table id="type-abonnement-table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        <TableSortLabel
+                                            active={orderBy === 'type'}
+                                            direction={orderBy === 'type' ? order : 'asc'}
+                                            onClick={() => handleRequestSort('type')}
+                                        >
+                                            Type
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <TableSortLabel
+                                            active={orderBy === 'tarif'}
+                                            direction={orderBy === 'tarif' ? order : 'asc'}
+                                            onClick={() => handleRequestSort('tarif')}
+                                        >
+                                            Tarif
+                                        </TableSortLabel>
+                                    </TableCell>
+                                    <TableCell align="right"></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {sortedItems.map((item, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell component="th" scope="row">
+                                            {item.type}
+                                        </TableCell>
+                                        <TableCell align="right">{item.tarif}</TableCell>
+                                        <TableCell align="right">
+                                            <IconButton edge="end" aria-label="edit" onClick={() => {
+                                                setEditIndex(index);
+                                                setNewType(item.type);
+                                                setNewTarif(item.tarif);
+                                            }}>
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteType(index)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+            }
         </Box>
     );
 };
