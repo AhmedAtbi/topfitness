@@ -87,6 +87,9 @@ const FormService = ({ handleClose, isSubscription, typeAbonnementRender }) => {
         setPhone('');
         setPhone('');
         setSommeEspece('');
+        setNomUrgence('');
+        setAgentFirstName('');
+        setAgentLastName('');
     };
     let today = new Date();
 

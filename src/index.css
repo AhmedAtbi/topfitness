@@ -221,6 +221,7 @@ input[type="checkbox"]:checked,
   font-family: Poppins !important;
 }
 
-table[id=type-abonnement-table] {
+table[id=type-abonnement-table],
+div[role=dialog] {
   background-color: rgb(247, 229, 216);
 }
