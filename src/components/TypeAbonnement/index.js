@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, IconButton, TableSortLabel, Dialog } from '@mui/material';
+import { Box, Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TableSortLabel, Dialog } from '@mui/material';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -77,7 +77,7 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
 
     const sortedItems = typeAbonnement.sort((a, b) => {
         if (orderBy === 'type') {
-            return (order === 'asc' ? a.type.localeCompare(b.type) : b.type.localeCompare(a.type));
+            return (order === 'asc' ? a.type.toUpperCase().localeCompare(b.type.toUpperCase()) : b.type.toUpperCase().localeCompare(a.type.toUpperCase()));
         } else {
             // Assuming tarif is a string, you might need to parse it for numerical comparison
             return (order === 'asc' ? parseFloat(a.tarif) - parseFloat(b.tarif) : parseFloat(b.tarif) - parseFloat(a.tarif));
@@ -174,13 +174,17 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
                 {!render &&
                     <>
                         <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <TextField
+                            <input
+                                placeholder="Type de l'abonnement"
+                                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                                 sx={{ maxWidth: "200px" }}
                                 label="Nouveau Type"
                                 value={newType}
                                 onChange={(e) => setNewType(e.target.value)}
                             />
-                            <TextField
+                            <input
+                                placeholder="Tarif"
+                                className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                                 sx={{ maxWidth: "200px" }}
                                 label="Tarif"
                                 value={newTarif}
@@ -223,10 +227,27 @@ const TypeAbonnementManager = ({ render, setAbonnement, abonnement, setTarif, se
                                 <TableBody>
                                     {sortedItems.map((item, index) => (
                                         <TableRow key={index}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                                sx={{
+                                                    fontWeight: 'bold',
+                                                    color: 'black',
+                                                    backgroundColor: 'rgba(0, 0, 0, 0.04)' // Example of light grey background
+                                                }}
+                                            >
                                                 {item.type}
                                             </TableCell>
-                                            <TableCell align="right">{item.tarif}</TableCell>
+                                            <TableCell
+                                                align="right"
+                                                sx={{
+                                                    fontWeight: 'bold',
+                                                    color: 'secondary.main',
+                                                    backgroundColor: 'rgba(255, 0, 0, 0.04)' // Example of light red background
+                                                }}
+                                            >
+                                                {item.tarif}
+                                            </TableCell>
                                             <TableCell align="right">
                                                 <IconButton edge="end" aria-label="edit" onClick={() => {
                                                     handleEditType(item, index)
